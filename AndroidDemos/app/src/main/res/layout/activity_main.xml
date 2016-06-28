@@ -14,19 +14,84 @@
   ~ limitations under the License.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/page_container"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/common_color"
+              android:orientation="vertical">
+
+    <android.support.v4.view.ViewPager
+            android:id="@+id/fragments_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" />
+
+    <LinearLayout
+            android:id="@+id/maintabs_container"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="vertical">
+
+        <View
+                android:id="@+id/radio_split"
+                android:layout_width="wrap_content"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@color/tabs_splitter_color" />
+
+        <RadioGroup
+                android:id="@+id/maintabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context=".MainActivity">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    <TextView
-            android:text="@string/hello_world"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            <RadioButton
+                    android:id="@+id/first_tab_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:button="@null"
+                    android:drawablePadding="2dip"
+                    android:drawableTop="@drawable/tab_icon_style"
+                    android:gravity="center"
+                    android:text="@string/first_tab_name"
+                    android:textColor="@color/tabs_name_text_color"
+                    android:textSize="13sp" />
 
-</RelativeLayout>
+            <RadioButton
+                    android:id="@+id/second_tab_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:button="@null"
+                    android:drawablePadding="2dip"
+                    android:drawableTop="@drawable/tab_icon_style"
+                    android:gravity="center"
+                    android:text="@string/second_tab_name"
+                    android:textColor="@color/tabs_name_text_color"
+                    android:textSize="13sp" />
+
+            <RadioButton
+                    android:id="@+id/third_tab_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#00000000"
+                    android:button="@null"
+                    android:drawablePadding="2dip"
+                    android:drawableTop="@drawable/tab_icon_style"
+                    android:gravity="center"
+                    android:text="@string/third_tab_name"
+                    android:textColor="@color/tabs_name_text_color"
+                    android:textSize="13sp" />
+
+        </RadioGroup>
+    </LinearLayout>
+
+</LinearLayout>

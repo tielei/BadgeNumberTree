@@ -16,18 +16,141 @@
 
 package com.zhangtielei.demos.badge_number;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RadioGroup;
+import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String LOG_TAG = "MainActivity";
+    private static final boolean DEBUG = BuildConfig.DEBUG;
+
+    private ViewPager mainViewPager;
+    private RadioGroup mainTabs;
+
+    private RadioGroup.OnCheckedChangeListener mainTabsOnCheckedChangeListener;
+    private ViewPager.OnPageChangeListener mainViewPagerOnPageChangeListener;
+
+    private MainTabsPagerAdapter viewPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainTabs = (RadioGroup) findViewById(R.id.maintabs);
+        //初始选中第一个Tab
+        if (savedInstanceState == null) {
+            mainTabs.check(R.id.first_tab_button);
+        }
+        else {
+            //Activity被系统销毁重建, mainTabs和mainViewPager都会保持原来的状态
+        }
+        //监听Tab点击选中事件
+        mainTabsOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (DEBUG) {
+                    Log.v(LOG_TAG, "onCheckedChanged -- checked id: " + checkedId);
+                }
+                //点击Tab控制view pager切换
+                int currentIndex = mainViewPager.getCurrentItem();
+                int targetIndex = getViewPagerIndexFromTabsCheckedButtonId(checkedId, currentIndex);
+                if (checkedId == group.getCheckedRadioButtonId() && targetIndex != currentIndex) {
+                    if (DEBUG) {
+                        Log.v(LOG_TAG, "onCheckedChanged -- set view pager to: " + targetIndex);
+                    }
+                    mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
+                    mainViewPager.setCurrentItem(targetIndex, false);
+                    mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
+                }
+            }
+        };
+        mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
+
+        mainViewPager = (ViewPager) findViewById(R.id.fragments_pager);
+        viewPagerAdapter = new MainTabsPagerAdapter(getSupportFragmentManager(), mainViewPager);
+        mainViewPager.setAdapter(viewPagerAdapter);
+        mainViewPager.setOffscreenPageLimit(2);//设置成2把几个Tab的holder页面都创建出来。避免销毁重建后的一些坐标混乱问题。
+        mainViewPagerOnPageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if (DEBUG) {
+                    //Log.v(LOG_TAG, "onPageScrolled -- position: " + position + ", positionOffset: " + positionOffset + ", positionOffsetPixels: " + positionOffsetPixels);
+                }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (DEBUG) {
+                    Log.v(LOG_TAG, "onPageSelected -- position: " + position);
+                }
+                //view pager切换也自动切换Tab状态
+                int currentCheckedId = mainTabs.getCheckedRadioButtonId();
+                int targetCheckId = getTabsCheckedButtonIdFromViewPagerIndex(position, currentCheckedId);
+                if (targetCheckId != currentCheckedId) {
+                    if (DEBUG) {
+                        Log.v(LOG_TAG, "onPageSelected -- check button id: " + targetCheckId);
+                        mainTabs.setOnCheckedChangeListener(null);
+                        mainTabs.check(targetCheckId);
+                        mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (DEBUG) {
+                    //Log.v(LOG_TAG, "onPageScrollStateChanged -- state: " + state);
+                }
+            }
+        };
+        mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
+
     }
+
+    private int getViewPagerIndexFromTabsCheckedButtonId(int checkedId, int defaultIndex) {
+        int targetIndex;
+        switch (checkedId) {
+            case R.id.first_tab_button:
+                targetIndex = MainTabsPagerAdapter.FRAGMENT_INDEX_FIRST;
+                break;
+            case R.id.second_tab_button:
+                targetIndex = MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND;
+                break;
+            case R.id.third_tab_button:
+                targetIndex = MainTabsPagerAdapter.FRAGMENT_INDEX_THIRD;
+                break;
+            default:
+                targetIndex = defaultIndex;
+                break;
+        }
+        return targetIndex;
+    }
+
+    private int getTabsCheckedButtonIdFromViewPagerIndex(int index, int defaultCheckedId) {
+        int targetCheckedId;
+        switch (index) {
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_FIRST:
+                targetCheckedId = R.id.first_tab_button;
+                break;
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND:
+                targetCheckedId = R.id.second_tab_button;
+                break;
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_THIRD:
+                targetCheckedId = R.id.third_tab_button;
+                break;
+            default:
+                targetCheckedId = defaultCheckedId;
+                break;
+        }
+        return targetCheckedId;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

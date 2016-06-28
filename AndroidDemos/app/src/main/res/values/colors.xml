@@ -13,14 +13,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <resources>
-    <string name="app_name">BadgeNumberTree</string>
-
-    <string name="action_settings">Settings</string>
-
-    <string name="first_tab_name">首页</string>
-    <string name="second_tab_name">消息</string>
-    <string name="third_tab_name">我</string>
-
+    <color name="common_color">#f9f5f0</color>
+    <color name="tabs_splitter_color">#e9e5d9</color>
+    <color name="tabs_name_text_color">#a39e9b</color>
 </resources>
