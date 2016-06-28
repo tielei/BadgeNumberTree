@@ -1,0 +1,2 @@
+# BadgeNumberTree
+用树形结构来组织红点和数字提示：一个Android客户端Demo
