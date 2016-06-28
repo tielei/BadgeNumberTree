@@ -49,19 +49,26 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-            <RadioButton
-                    android:id="@+id/first_tab_button"
+            <RelativeLayout
+                    android:id="@+id/first_tab_button_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:button="@null"
-                    android:drawablePadding="2dip"
-                    android:drawableTop="@drawable/tab_icon_style"
-                    android:gravity="center"
-                    android:text="@string/first_tab_name"
-                    android:textColor="@color/tabs_name_text_color"
-                    android:textSize="13sp" />
+                    android:layout_weight="1">
+                <RadioButton
+                        android:id="@+id/first_tab_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="#00000000"
+                        android:button="@null"
+                        android:drawablePadding="2dip"
+                        android:drawableTop="@drawable/tab_icon_style"
+                        android:gravity="center"
+                        android:text="@string/first_tab_name"
+                        android:textColor="@color/tabs_name_text_color"
+                        android:textSize="13sp" />
+            </RelativeLayout>
+
 
             <RadioButton
                     android:id="@+id/second_tab_button"

@@ -22,7 +22,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,12 +39,16 @@ public class MainActivity extends AppCompatActivity {
 
     private MainTabsPagerAdapter viewPagerAdapter;
 
+    private RelativeLayout firstTabButtonContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mainTabs = (RadioGroup) findViewById(R.id.maintabs);
+        firstTabButtonContainer = (RelativeLayout) findViewById(R.id.first_tab_button_container);
+
         //初始选中第一个Tab
         if (savedInstanceState == null) {
             mainTabs.check(R.id.first_tab_button);
@@ -50,7 +56,17 @@ public class MainActivity extends AppCompatActivity {
         else {
             //Activity被系统销毁重建, mainTabs和mainViewPager都会保持原来的状态
         }
+
         //监听Tab点击选中事件
+        firstTabButtonContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
+                mainViewPager.setCurrentItem(0, false);
+                mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
+            }
+        });
+
         mainTabsOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
