@@ -23,8 +23,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,13 +33,15 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mainViewPager;
     private RadioGroup mainTabs;
+    private RadioButton firstTabButton;
+    private RadioButton secondTabButton;
+    private RadioButton thirdTabButton;
 
     private RadioGroup.OnCheckedChangeListener mainTabsOnCheckedChangeListener;
     private ViewPager.OnPageChangeListener mainViewPagerOnPageChangeListener;
+    private View.OnClickListener mainTabsOnClickListener;
 
     private MainTabsPagerAdapter viewPagerAdapter;
-
-    private RelativeLayout firstTabButtonContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainTabs = (RadioGroup) findViewById(R.id.maintabs);
-        firstTabButtonContainer = (RelativeLayout) findViewById(R.id.first_tab_button_container);
+        firstTabButton = (RadioButton) findViewById(R.id.first_tab_button);
+        secondTabButton = (RadioButton) findViewById(R.id.second_tab_button);
+        thirdTabButton = (RadioButton) findViewById(R.id.third_tab_button);
 
         //初始选中第一个Tab
         if (savedInstanceState == null) {
@@ -58,36 +62,32 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //监听Tab点击选中事件
-        firstTabButtonContainer.setOnClickListener(new View.OnClickListener() {
+        mainTabsOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
-                mainViewPager.setCurrentItem(0, false);
-                mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
-            }
-        });
-
-        mainTabsOnCheckedChangeListener = new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (DEBUG) {
-                    Log.v(LOG_TAG, "onCheckedChanged -- checked id: " + checkedId);
+                    Log.v(LOG_TAG, "RadioButton onClick -- button id: " + v.getId());
                 }
                 //点击Tab控制view pager切换
                 int currentIndex = mainViewPager.getCurrentItem();
-                int targetIndex = getViewPagerIndexFromTabsCheckedButtonId(checkedId, currentIndex);
-                if (checkedId == group.getCheckedRadioButtonId() && targetIndex != currentIndex) {
+                int targetIndex = getViewPagerIndexFromTabsCheckedButtonId(v.getId(), currentIndex);
+                if (targetIndex != currentIndex) {
                     if (DEBUG) {
-                        Log.v(LOG_TAG, "onCheckedChanged -- set view pager to: " + targetIndex);
+                        Log.v(LOG_TAG, "RadioButton onClick -- set view pager to: " + targetIndex);
                     }
+                    mainTabs.check(v.getId());
                     mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
                     mainViewPager.setCurrentItem(targetIndex, false);
                     mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
                 }
             }
         };
-        mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
+        firstTabButton.setOnClickListener(mainTabsOnClickListener);
+        secondTabButton.setOnClickListener(mainTabsOnClickListener);
+        thirdTabButton.setOnClickListener(mainTabsOnClickListener);
 
+
+        //监听View Pager切换事件
         mainViewPager = (ViewPager) findViewById(R.id.fragments_pager);
         viewPagerAdapter = new MainTabsPagerAdapter(getSupportFragmentManager(), mainViewPager);
         mainViewPager.setAdapter(viewPagerAdapter);

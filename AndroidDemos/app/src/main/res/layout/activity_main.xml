@@ -67,36 +67,114 @@
                         android:text="@string/first_tab_name"
                         android:textColor="@color/tabs_name_text_color"
                         android:textSize="13sp" />
+                <TextView
+                        android:id="@+id/first_tab_badge_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/first_tab_button"
+                        android:layout_toRightOf="@id/first_tab_button"
+                        android:background="@drawable/badge_count_bg"
+                        android:gravity="center"
+                        android:text="99+"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:visibility="invisible" />
+
+                <ImageView
+                        android:id="@+id/first_tab_badge_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/first_tab_button"
+                        android:layout_toRightOf="@id/first_tab_button"
+                        android:layout_marginLeft="-5dp"
+                        android:src="@drawable/badge_dot"
+                        android:visibility="invisible" />
             </RelativeLayout>
 
 
-            <RadioButton
-                    android:id="@+id/second_tab_button"
+            <RelativeLayout
+                    android:id="@+id/second_tab_button_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:button="@null"
-                    android:drawablePadding="2dip"
-                    android:drawableTop="@drawable/tab_icon_style"
-                    android:gravity="center"
-                    android:text="@string/second_tab_name"
-                    android:textColor="@color/tabs_name_text_color"
-                    android:textSize="13sp" />
+                    android:layout_weight="1">
+                <RadioButton
+                        android:id="@+id/second_tab_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="#00000000"
+                        android:button="@null"
+                        android:drawablePadding="2dip"
+                        android:drawableTop="@drawable/tab_icon_style"
+                        android:gravity="center"
+                        android:text="@string/second_tab_name"
+                        android:textColor="@color/tabs_name_text_color"
+                        android:textSize="13sp" />
+                <TextView
+                        android:id="@+id/second_tab_badge_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/second_tab_button"
+                        android:layout_toRightOf="@id/second_tab_button"
+                        android:background="@drawable/badge_count_bg"
+                        android:gravity="center"
+                        android:text="99+"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:visibility="invisible" />
 
-            <RadioButton
-                    android:id="@+id/third_tab_button"
+                <ImageView
+                        android:id="@+id/second_tab_badge_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/second_tab_button"
+                        android:layout_toRightOf="@id/second_tab_button"
+                        android:layout_marginLeft="-5dp"
+                        android:src="@drawable/badge_dot"
+                        android:visibility="invisible" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                    android:id="@+id/third_tab_button_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#00000000"
-                    android:button="@null"
-                    android:drawablePadding="2dip"
-                    android:drawableTop="@drawable/tab_icon_style"
-                    android:gravity="center"
-                    android:text="@string/third_tab_name"
-                    android:textColor="@color/tabs_name_text_color"
-                    android:textSize="13sp" />
+                    android:layout_weight="1">
+                <RadioButton
+                        android:id="@+id/third_tab_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="#00000000"
+                        android:button="@null"
+                        android:drawablePadding="2dip"
+                        android:drawableTop="@drawable/tab_icon_style"
+                        android:gravity="center"
+                        android:text="@string/third_tab_name"
+                        android:textColor="@color/tabs_name_text_color"
+                        android:textSize="13sp" />
+                <TextView
+                        android:id="@+id/third_tab_badge_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/third_tab_button"
+                        android:layout_toRightOf="@id/third_tab_button"
+                        android:background="@drawable/badge_count_bg"
+                        android:gravity="center"
+                        android:text="99+"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:visibility="invisible" />
+
+                <ImageView
+                        android:id="@+id/third_tab_badge_dot"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/third_tab_button"
+                        android:layout_toRightOf="@id/third_tab_button"
+                        android:layout_marginLeft="-5dp"
+                        android:src="@drawable/badge_dot"
+                        android:visibility="invisible" />
+            </RelativeLayout>
 
         </RadioGroup>
     </LinearLayout>
