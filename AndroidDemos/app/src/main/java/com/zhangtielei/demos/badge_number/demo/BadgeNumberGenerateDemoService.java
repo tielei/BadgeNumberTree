@@ -73,8 +73,14 @@ public class BadgeNumberGenerateDemoService extends Service {
                         badgeNumber.setType(type);
                         int count = rand.nextInt(20) + 1;//count在[1, 20]内随机
                         badgeNumber.setCount(count);
-                        //父节点显示方式: 系统消息是红点, 其它都按数字
-                        int displayMode = (type == BadgeNumber.TYPE_SYSMSG) ? BadgeNumber.DISPLAY_MODE_ON_PARENT_DOT : BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER;
+                        //父节点显示方式: 系统消息是红点, 第三个页面的是红点, 其它都按数字
+                        int displayMode;
+                        if ((type == BadgeNumber.TYPE_SYSMSG) || (type >= BadgeNumber.CATEGORY_Z_MIN && type <= BadgeNumber.CATEGORY_Z_MAX)) {
+                            displayMode = BadgeNumber.DISPLAY_MODE_ON_PARENT_DOT;
+                        }
+                        else {
+                            displayMode = BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER;
+                        }
                         badgeNumber.setDisplayMode(displayMode);
                         Log.v(TAG, "Generate a badge number, type: 0x" + Integer.toHexString(type)  + ", count: " + count + ", displayMode: " + displayMode);
                         BadgeNumberTreeManager.getInstance().setBadgeNumber(badgeNumber, new AsyncResult<Boolean>() {

@@ -15,7 +15,7 @@
   -->
 
 <resources>
-    <string name="app_name">BadgeNumberTree</string>
+    <string name="app_name">演示程序</string>
 
     <string name="action_settings">Settings</string>
 
@@ -31,7 +31,8 @@
     <string name="title_activity_liked">LikedActivity</string>
     <string name="title_activity_sys_msg">SysMsgActivity</string>
 
-    <string name="click_to_clear_tab_badges">点击清除当前页面的数字</string>
+    <string name="click_to_clear_badge_count">点击清除当前页面的数字</string>
+    <string name="click_to_clear_badge_dot">点击清除当前页面的红点</string>
     <string name="badge_number_cleared">数字/红点已清除</string>
 
     <string name="demo_description">本演示程序为了模拟Badge Number(数字/红点)的处理, 后台每隔15秒随机生成一个Badge Number.</string>
