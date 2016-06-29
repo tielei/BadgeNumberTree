@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         tabBadgeCountViewList = new ArrayList<TextView>(MainTabsPagerAdapter.FRAGMENT_COUNT);
         tabBadgeCountViewList.add((TextView) findViewById(R.id.first_tab_badge_count));
         tabBadgeCountViewList.add((TextView) findViewById(R.id.second_tab_badge_count));
-        tabBadgeCountViewList.add((TextView) findViewById(R.id.second_tab_badge_count));
+        tabBadgeCountViewList.add((TextView) findViewById(R.id.third_tab_badge_count));
 
         tabBadgeDotViewList = new ArrayList<ImageView>(MainTabsPagerAdapter.FRAGMENT_COUNT);
         tabBadgeDotViewList.add((ImageView) findViewById(R.id.first_tab_badge_dot));
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             public void returnResult(BadgeNumberCountResult result) {
                 if (result.getDisplayMode() == BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER && result.getTotalCount() > 0) {
                     //展示数字
-                    showTabBadgeNumber(tabIndex, result.getTotalCount());
+                    showTabBadgeCount(tabIndex, result.getTotalCount());
                 } else if (result.getDisplayMode() == BadgeNumber.DISPLAY_MODE_ON_PARENT_DOT && result.getTotalCount() > 0) {
                     //展示红点
                     showTabBadgeDot(tabIndex);
@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
      * @param tabIndex
      * @param count
      */
-    private void showTabBadgeNumber(int tabIndex, int count) {
+    private void showTabBadgeCount(int tabIndex, int count) {
         tabBadgeCountViewList.get(tabIndex).setText(getCountDisplayString(count));
         tabBadgeCountViewList.get(tabIndex).setVisibility(View.VISIBLE);
         tabBadgeDotViewList.get(tabIndex).setVisibility(View.INVISIBLE);
