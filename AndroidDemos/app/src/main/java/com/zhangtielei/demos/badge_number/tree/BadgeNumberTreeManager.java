@@ -18,6 +18,7 @@ package com.zhangtielei.demos.badge_number.tree;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import com.zhangtielei.demos.badge_number.async.AsyncResult;
 import com.zhangtielei.demos.badge_number.datastore.BadgeNumberDAO;
 import com.zhangtielei.demos.badge_number.model.BadgeNumber;
@@ -39,7 +40,7 @@ public class BadgeNumberTreeManager {
         return instance;
     }
 
-    private BadgeNumberDAO badgeNumberDAO;
+    private BadgeNumberDAO badgeNumberDAO = new BadgeNumberDAO();
     private List<BadgeNumberCacheEntry> badgeNumberCacheList = new LinkedList<BadgeNumberCacheEntry>();
     /**
      * 执行异步db操作使用的executor.

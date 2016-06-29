@@ -23,9 +23,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import com.zhangtielei.demos.badge_number.async.AsyncResult;
+import com.zhangtielei.demos.badge_number.model.BadgeNumber;
 import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager.BadgeNumberCountResult;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager.BadgeNumberTypeInterval;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 程序入口页面
@@ -45,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener mainTabsOnClickListener;
 
     private MainTabsPagerAdapter viewPagerAdapter;
+
+    private List<TextView> tabBadgeCountViewList;//数字view列表
+    private List<ImageView> tabBadgeDotViewList;//红点view列表
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
                         mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
                     }
                 }
+
+                refreshAllTabsBadgeNumbers();
             }
 
             @Override
@@ -129,6 +144,30 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
+
+        //初始化Tab上数字红点数据结构
+        tabBadgeCountViewList = new ArrayList<TextView>(MainTabsPagerAdapter.FRAGMENT_COUNT);
+        tabBadgeCountViewList.add((TextView) findViewById(R.id.first_tab_badge_count));
+        tabBadgeCountViewList.add((TextView) findViewById(R.id.second_tab_badge_count));
+        tabBadgeCountViewList.add((TextView) findViewById(R.id.second_tab_badge_count));
+
+        tabBadgeDotViewList = new ArrayList<ImageView>(MainTabsPagerAdapter.FRAGMENT_COUNT);
+        tabBadgeDotViewList.add((ImageView) findViewById(R.id.first_tab_badge_dot));
+        tabBadgeDotViewList.add((ImageView) findViewById(R.id.second_tab_badge_dot));
+        tabBadgeDotViewList.add((ImageView) findViewById(R.id.third_tab_badge_dot));
+
+        BadgeNumber badgeNumber = new BadgeNumber();
+        badgeNumber.setType(BadgeNumber.TYPE_COMMENT);
+        badgeNumber.setCount(3);
+        badgeNumber.setDisplayMode(BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER);
+        BadgeNumberTreeManager.getInstance().setBadgeNumber(badgeNumber, null);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        refreshAllTabsBadgeNumbers();
     }
 
     private int getViewPagerIndexFromTabsCheckedButtonId(int checkedId, int defaultIndex) {
@@ -168,6 +207,101 @@ public class MainActivity extends AppCompatActivity {
         }
         return targetCheckedId;
     }
+
+
+    /**
+     * 刷新所有Tab上的badge number
+     */
+    private void refreshAllTabsBadgeNumbers() {
+        refreshTabBadgeNumber(MainTabsPagerAdapter.FRAGMENT_INDEX_FIRST);
+        refreshTabBadgeNumber(MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND);
+        refreshTabBadgeNumber(MainTabsPagerAdapter.FRAGMENT_INDEX_THIRD);
+    }
+
+    /**
+     * 刷新指定Tab上的badge number
+     *
+     * @param tabIndex
+     */
+    private void refreshTabBadgeNumber(final int tabIndex) {
+        //为三个Tab构造对应的badge number类型区间
+        BadgeNumberTypeInterval typeInterval = new BadgeNumberTypeInterval();
+        switch (tabIndex) {
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_FIRST:
+                typeInterval.setTypeMin(BadgeNumber.CATEGORY_X_MIN);
+                typeInterval.setTypeMax(BadgeNumber.CATEGORY_X_MAX);
+                break;
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND:
+                typeInterval.setTypeMin(BadgeNumber.CATEGORY_NEWS_MIN);
+                typeInterval.setTypeMax(BadgeNumber.CATEGORY_NEWS_MAX);
+                break;
+            case MainTabsPagerAdapter.FRAGMENT_INDEX_THIRD:
+                typeInterval.setTypeMin(BadgeNumber.CATEGORY_Z_MIN);
+                typeInterval.setTypeMax(BadgeNumber.CATEGORY_Z_MAX);
+                break;
+            default:
+                break;
+        }
+
+        List<BadgeNumberTypeInterval> typeIntervalList = new ArrayList<BadgeNumberTypeInterval>(1);
+        typeIntervalList.add(typeInterval);
+
+        BadgeNumberTreeManager.getInstance().getTotalBadgeNumberOnParent(typeIntervalList, new AsyncResult<BadgeNumberCountResult>() {
+            @Override
+            public void returnResult(BadgeNumberCountResult result) {
+                if (result.getDisplayMode() == BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER && result.getTotalCount() > 0) {
+                    //展示数字
+                    showTabBadgeNumber(tabIndex, result.getTotalCount());
+                } else if (result.getDisplayMode() == BadgeNumber.DISPLAY_MODE_ON_PARENT_DOT && result.getTotalCount() > 0) {
+                    //展示红点
+                    showTabBadgeDot(tabIndex);
+                } else {
+                    //隐藏数字和红点
+                    hideTabBadgeNumber(tabIndex);
+                }
+            }
+        });
+
+    }
+
+
+    /**
+     * 显示Tab数字
+     *
+     * @param tabIndex
+     * @param count
+     */
+    private void showTabBadgeNumber(int tabIndex, int count) {
+        tabBadgeCountViewList.get(tabIndex).setText(getCountDisplayString(count));
+        tabBadgeCountViewList.get(tabIndex).setVisibility(View.VISIBLE);
+        tabBadgeDotViewList.get(tabIndex).setVisibility(View.INVISIBLE);
+    }
+
+
+    /**
+     * 显示Tab红点
+     *
+     * @param tabIndex
+     */
+    private void showTabBadgeDot(int tabIndex) {
+        tabBadgeDotViewList.get(tabIndex).setVisibility(View.VISIBLE);
+        tabBadgeCountViewList.get(tabIndex).setVisibility(View.INVISIBLE);
+    }
+
+    /**
+     * 隐藏Tab数字和红点
+     *
+     * @param tabIndex
+     */
+    private void hideTabBadgeNumber(int tabIndex) {
+        tabBadgeDotViewList.get(tabIndex).setVisibility(View.INVISIBLE);
+        tabBadgeCountViewList.get(tabIndex).setVisibility(View.INVISIBLE);
+    }
+
+    private String getCountDisplayString(int count) {
+        return (count < 100) ? String.valueOf(count) : "99+";
+    }
+
 
 
     @Override
