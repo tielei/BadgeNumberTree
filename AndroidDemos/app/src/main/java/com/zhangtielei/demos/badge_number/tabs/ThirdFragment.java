@@ -24,8 +24,7 @@ import android.view.ViewGroup;
 import com.zhangtielei.demos.badge_number.R;
 
 /**
- * Created by charleszhang on 2/5/16.
- * 健康咨询页面。
+ * Tab第三个页面
  */
 public class ThirdFragment extends Fragment {
     @Override

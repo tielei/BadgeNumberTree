@@ -24,8 +24,7 @@ import android.view.ViewGroup;
 import com.zhangtielei.demos.badge_number.R;
 
 /**
- * Created by charleszhang on 2/5/16.
- * 诊断页面。
+ * Tab第一个页面
  */
 public class FirstFragment extends Fragment {
     @Override

@@ -14,21 +14,11 @@
  * limitations under the License.
  */
 
-package com.zhangtielei.demos.badge_number.tabs;
-
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.zhangtielei.demos.badge_number.R;
+package com.zhangtielei.demos.badge_number.async;
 
 /**
- * 用作view pager初次加载一个页面时占位的fragment
+ * 用于异步返回结果的接口.
  */
-public class PlaceHolderFragment extends Fragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.placeholder_fragment, container, false);
-    }
+public interface AsyncResult<ResultType> {
+    void returnResult(ResultType result);
 }

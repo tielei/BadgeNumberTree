@@ -22,6 +22,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.zhangtielei.demos.badge_number.R;
 
+/**
+ * 查看评论的页面
+ */
 public class CommentActivity extends AppCompatActivity {
 
     @Override

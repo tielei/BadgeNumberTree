@@ -27,6 +27,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
 
+/**
+ * 程序入口页面
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = "MainActivity";
     private static final boolean DEBUG = BuildConfig.DEBUG;
@@ -126,7 +129,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
-
     }
 
     private int getViewPagerIndexFromTabsCheckedButtonId(int checkedId, int defaultIndex) {

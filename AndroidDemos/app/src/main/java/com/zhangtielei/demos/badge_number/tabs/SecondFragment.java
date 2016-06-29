@@ -28,8 +28,7 @@ import com.zhangtielei.demos.badge_number.msg.LikedActivity;
 import com.zhangtielei.demos.badge_number.msg.SysMsgActivity;
 
 /**
- * Created by charleszhang on 2/5/16.
- * 助听页面。
+ * Tab第二个页面
  */
 public class SecondFragment extends Fragment {
     @Override

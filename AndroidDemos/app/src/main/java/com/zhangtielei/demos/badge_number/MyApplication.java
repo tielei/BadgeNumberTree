@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package com.zhangtielei.demos.badge_number.tabs;
+package com.zhangtielei.demos.badge_number;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import com.zhangtielei.demos.badge_number.R;
+import android.app.Application;
+import android.content.Context;
 
 /**
- * 用作view pager初次加载一个页面时占位的fragment
+ * 应用的全局Application对象。
  */
-public class PlaceHolderFragment extends Fragment {
+public class MyApplication extends Application {
+    private static Context applicationContext;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.placeholder_fragment, container, false);
+    public void onCreate() {
+        super.onCreate();
+
+        applicationContext = getApplicationContext();
+    }
+
+    public static Context getMyApplicationContext() {
+        return applicationContext;
     }
 }
