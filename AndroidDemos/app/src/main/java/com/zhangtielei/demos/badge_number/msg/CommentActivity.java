@@ -21,6 +21,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.zhangtielei.demos.badge_number.R;
+import com.zhangtielei.demos.badge_number.model.BadgeNumber;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 
 /**
  * 查看评论的页面
@@ -31,6 +33,8 @@ public class CommentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment);
+
+        BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_COMMENT, null);
     }
 
     @Override

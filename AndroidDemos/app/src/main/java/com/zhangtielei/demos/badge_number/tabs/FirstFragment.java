@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.zhangtielei.demos.badge_number.R;
+import com.zhangtielei.demos.badge_number.model.BadgeNumber;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 
 /**
  * Tab第一个页面
@@ -31,4 +33,22 @@ public class FirstFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.first_fragment, container, false);
     }
+
+    @Override
+    public void onActivityCreated(final Bundle instance) {
+        super.onActivityCreated(instance);
+
+        getView().findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //清除Badge Numbers
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_X1, null);
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_X2, null);
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_X3, null);
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_X4, null);
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_X5, null);
+            }
+        });
+    }
+
 }

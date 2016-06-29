@@ -25,7 +25,7 @@
                 tools:context="com.zhangtielei.demos.badge_number.msg.SysMsgActivity">
 
     <TextView
-            android:text="Sys msg"
+            android:text="@string/badge_number_cleared"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"/>

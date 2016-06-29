@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.zhangtielei.demos.badge_number.R;
+import com.zhangtielei.demos.badge_number.model.BadgeNumber;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 
 /**
  * Tab第三个页面
@@ -31,5 +33,21 @@ public class ThirdFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.third_fragment, container, false);
     }
+
+
+    @Override
+    public void onActivityCreated(final Bundle instance) {
+        super.onActivityCreated(instance);
+
+        getView().findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //清除Badge Numbers
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_Z1, null);
+                BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_Z2, null);
+            }
+        });
+    }
+
 
 }

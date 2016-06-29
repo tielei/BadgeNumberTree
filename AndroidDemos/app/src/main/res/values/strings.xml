@@ -31,4 +31,8 @@
     <string name="title_activity_liked">LikedActivity</string>
     <string name="title_activity_sys_msg">SysMsgActivity</string>
 
+    <string name="click_to_clear_tab_badges">点击清除当前页面的数字</string>
+    <string name="badge_number_cleared">数字/红点已清除</string>
+
+
 </resources>

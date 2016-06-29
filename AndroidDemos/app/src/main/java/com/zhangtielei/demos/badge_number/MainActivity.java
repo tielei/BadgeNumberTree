@@ -16,6 +16,10 @@
 
 package com.zhangtielei.demos.badge_number;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +32,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import com.zhangtielei.demos.badge_number.async.AsyncResult;
+import com.zhangtielei.demos.badge_number.demo.BadgeNumberGenerateDemoService;
 import com.zhangtielei.demos.badge_number.model.BadgeNumber;
+import com.zhangtielei.demos.badge_number.tabs.SecondFragment;
 import com.zhangtielei.demos.badge_number.tabs.adapter.MainTabsPagerAdapter;
 import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager.BadgeNumberCountResult;
@@ -41,7 +47,7 @@ import java.util.List;
  * 程序入口页面
  */
 public class MainActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
     private static final boolean DEBUG = BuildConfig.DEBUG;
 
     private ViewPager mainViewPager;
@@ -58,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
 
     private List<TextView> tabBadgeCountViewList;//数字view列表
     private List<ImageView> tabBadgeDotViewList;//红点view列表
+
+    private BadgeNumberReceiver badgeNumberReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,14 +90,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (DEBUG) {
-                    Log.v(LOG_TAG, "RadioButton onClick -- button id: " + v.getId());
+                    Log.v(TAG, "RadioButton onClick -- button id: " + v.getId());
                 }
                 //点击Tab控制view pager切换
                 int currentIndex = mainViewPager.getCurrentItem();
                 int targetIndex = getViewPagerIndexFromTabsCheckedButtonId(v.getId(), currentIndex);
                 if (targetIndex != currentIndex) {
                     if (DEBUG) {
-                        Log.v(LOG_TAG, "RadioButton onClick -- set view pager to: " + targetIndex);
+                        Log.v(TAG, "RadioButton onClick -- set view pager to: " + targetIndex);
                     }
                     mainTabs.check(v.getId());
                     mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
@@ -119,14 +127,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (DEBUG) {
-                    Log.v(LOG_TAG, "onPageSelected -- position: " + position);
+                    Log.v(TAG, "onPageSelected -- position: " + position);
                 }
                 //view pager切换也自动切换Tab状态
                 int currentCheckedId = mainTabs.getCheckedRadioButtonId();
                 int targetCheckId = getTabsCheckedButtonIdFromViewPagerIndex(position, currentCheckedId);
                 if (targetCheckId != currentCheckedId) {
                     if (DEBUG) {
-                        Log.v(LOG_TAG, "onPageSelected -- check button id: " + targetCheckId);
+                        Log.v(TAG, "onPageSelected -- check button id: " + targetCheckId);
                         mainTabs.setOnCheckedChangeListener(null);
                         mainTabs.check(targetCheckId);
                         mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
@@ -134,6 +142,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 refreshAllTabsBadgeNumbers();
+                if (position == MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND) {
+                    //第二个Tab, 刷第二页面里的badge number
+                    SecondFragment secondFragment = (SecondFragment) viewPagerAdapter.getFragment(position);
+                    if (secondFragment != null) {
+                        secondFragment.refreshBadgeNumbers();
+                    }
+                }
             }
 
             @Override
@@ -156,11 +171,8 @@ public class MainActivity extends AppCompatActivity {
         tabBadgeDotViewList.add((ImageView) findViewById(R.id.second_tab_badge_dot));
         tabBadgeDotViewList.add((ImageView) findViewById(R.id.third_tab_badge_dot));
 
-        BadgeNumber badgeNumber = new BadgeNumber();
-        badgeNumber.setType(BadgeNumber.TYPE_COMMENT);
-        badgeNumber.setCount(3);
-        badgeNumber.setDisplayMode(BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER);
-        BadgeNumberTreeManager.getInstance().setBadgeNumber(badgeNumber, null);
+        badgeNumberReceiver = new BadgeNumberReceiver();
+        startService(new Intent(this, BadgeNumberGenerateDemoService.class));
     }
 
     @Override
@@ -168,6 +180,17 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
 
         refreshAllTabsBadgeNumbers();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.zhangtielei.demos.badge_number.generated");
+        registerReceiver(badgeNumberReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        unregisterReceiver(badgeNumberReceiver);
     }
 
     private int getViewPagerIndexFromTabsCheckedButtonId(int checkedId, int defaultIndex) {
@@ -245,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
         List<BadgeNumberTypeInterval> typeIntervalList = new ArrayList<BadgeNumberTypeInterval>(1);
         typeIntervalList.add(typeInterval);
+        //注:这里的Demo类型区间列表里只有一个区间, 实际中可能会有多个
 
         BadgeNumberTreeManager.getInstance().getTotalBadgeNumberOnParent(typeIntervalList, new AsyncResult<BadgeNumberCountResult>() {
             @Override
@@ -324,5 +348,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class BadgeNumberReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.v(TAG, "Rx badge number broadcast!");
+            refreshAllTabsBadgeNumbers();
+            int currentTabIndex = mainViewPager.getCurrentItem();
+            if (currentTabIndex == MainTabsPagerAdapter.FRAGMENT_INDEX_SECOND) {
+                //第二个Tab, 刷第二页面里的badge number
+                SecondFragment secondFragment = (SecondFragment) viewPagerAdapter.getFragment(currentTabIndex);
+                if (secondFragment != null) {
+                    secondFragment.refreshBadgeNumbers();
+                }
+            }
+        }
     }
 }

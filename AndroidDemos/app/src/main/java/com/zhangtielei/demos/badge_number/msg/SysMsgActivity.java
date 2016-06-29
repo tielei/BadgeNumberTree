@@ -16,11 +16,13 @@
 
 package com.zhangtielei.demos.badge_number.msg;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.zhangtielei.demos.badge_number.R;
+import com.zhangtielei.demos.badge_number.model.BadgeNumber;
+import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 
 /**
  * 查看系统消息的页面
@@ -31,6 +33,8 @@ public class SysMsgActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sys_msg);
+
+        BadgeNumberTreeManager.getInstance().clearBadgeNumber(BadgeNumber.TYPE_SYSMSG, null);
     }
 
     @Override
