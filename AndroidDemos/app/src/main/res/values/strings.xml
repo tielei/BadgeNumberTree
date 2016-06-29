@@ -34,5 +34,6 @@
     <string name="click_to_clear_tab_badges">点击清除当前页面的数字</string>
     <string name="badge_number_cleared">数字/红点已清除</string>
 
+    <string name="demo_description">本演示程序为了模拟Badge Number(数字/红点)的处理, 后台每隔15秒随机生成一个Badge Number.</string>
 
 </resources>

@@ -22,9 +22,11 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.util.Log;
+import com.zhangtielei.demos.badge_number.async.AsyncResult;
 import com.zhangtielei.demos.badge_number.model.BadgeNumber;
 import com.zhangtielei.demos.badge_number.tree.BadgeNumberTreeManager;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -37,6 +39,7 @@ public class BadgeNumberGenerateDemoService extends Service {
 
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private Handler mainHandler = new Handler(Looper.getMainLooper());
+    private Random rand = new Random();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -45,6 +48,19 @@ public class BadgeNumberGenerateDemoService extends Service {
     }
 
     public void onCreate() {
+        final int[] typeCandidates = new int[] {
+                BadgeNumber.TYPE_X1,
+                BadgeNumber.TYPE_X2,
+                BadgeNumber.TYPE_X3,
+                BadgeNumber.TYPE_X4,
+                BadgeNumber.TYPE_X5,
+                BadgeNumber.TYPE_COMMENT,
+                BadgeNumber.TYPE_LIKED,
+                BadgeNumber.TYPE_SYSMSG,
+                BadgeNumber.TYPE_Z1,
+                BadgeNumber.TYPE_Z2
+        };
+
         //启动一个任务, 每15秒产生一个badge number
         scheduler.scheduleWithFixedDelay(new Runnable() {
             @Override
@@ -53,14 +69,23 @@ public class BadgeNumberGenerateDemoService extends Service {
                     @Override
                     public void run() {
                         BadgeNumber badgeNumber = new BadgeNumber();
-                        badgeNumber.setType(BadgeNumber.TYPE_LIKED);
-                        badgeNumber.setCount(5);
-                        badgeNumber.setDisplayMode(BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER);
-                        BadgeNumberTreeManager.getInstance().setBadgeNumber(badgeNumber, null);
-                        Log.v(TAG, "Generate a badge number...");
-
-                        Intent intent = new Intent("com.zhangtielei.demos.badge_number.generated");
-                        sendBroadcast(intent);
+                        int type = typeCandidates[rand.nextInt(typeCandidates.length)];//随机一种badge number类型
+                        badgeNumber.setType(type);
+                        int count = rand.nextInt(20) + 1;//count在[1, 20]内随机
+                        badgeNumber.setCount(count);
+                        //父节点显示方式: 系统消息是红点, 其它都按数字
+                        int displayMode = (type == BadgeNumber.TYPE_SYSMSG) ? BadgeNumber.DISPLAY_MODE_ON_PARENT_DOT : BadgeNumber.DISPLAY_MODE_ON_PARENT_NUMBER;
+                        badgeNumber.setDisplayMode(displayMode);
+                        Log.v(TAG, "Generate a badge number, type: 0x" + Integer.toHexString(type)  + ", count: " + count + ", displayMode: " + displayMode);
+                        BadgeNumberTreeManager.getInstance().setBadgeNumber(badgeNumber, new AsyncResult<Boolean>() {
+                            @Override
+                            public void returnResult(Boolean result) {
+                                if (Boolean.TRUE.equals(result)) {
+                                    Intent intent = new Intent("com.zhangtielei.demos.badge_number.generated");
+                                    sendBroadcast(intent);
+                                }
+                            }
+                        });
                     }
                 });
             }

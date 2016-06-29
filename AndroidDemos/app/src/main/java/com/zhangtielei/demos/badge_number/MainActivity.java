@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton secondTabButton;
     private RadioButton thirdTabButton;
 
-    private RadioGroup.OnCheckedChangeListener mainTabsOnCheckedChangeListener;
     private ViewPager.OnPageChangeListener mainViewPagerOnPageChangeListener;
     private View.OnClickListener mainTabsOnClickListener;
 
@@ -103,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
                     mainViewPager.removeOnPageChangeListener(mainViewPagerOnPageChangeListener);
                     mainViewPager.setCurrentItem(targetIndex, false);
                     mainViewPager.addOnPageChangeListener(mainViewPagerOnPageChangeListener);
+
+                    refreshAllTabsBadgeNumbers();
                 }
             }
         };
@@ -135,9 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 if (targetCheckId != currentCheckedId) {
                     if (DEBUG) {
                         Log.v(TAG, "onPageSelected -- check button id: " + targetCheckId);
-                        mainTabs.setOnCheckedChangeListener(null);
                         mainTabs.check(targetCheckId);
-                        mainTabs.setOnCheckedChangeListener(mainTabsOnCheckedChangeListener);
                     }
                 }
 
