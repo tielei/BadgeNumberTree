@@ -23,4 +23,12 @@
     <string name="second_tab_name">消息</string>
     <string name="third_tab_name">我</string>
 
+    <string name="comment_title">收到的评论</string>
+    <string name="liked_title">收到的赞</string>
+    <string name="sysmsg_title">系统消息</string>
+    <string name="title_activity_comment">CommentActivity</string>
+
+    <string name="title_activity_liked">LikedActivity</string>
+    <string name="title_activity_sys_msg">SysMsgActivity</string>
+
 </resources>

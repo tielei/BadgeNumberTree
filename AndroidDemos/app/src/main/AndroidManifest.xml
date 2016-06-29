@@ -16,6 +16,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".msg.CommentActivity"
+            android:label="@string/title_activity_comment" >
+        </activity>
+        <activity
+            android:name=".msg.LikedActivity"
+            android:label="@string/title_activity_liked" >
+        </activity>
+        <activity
+            android:name=".msg.SysMsgActivity"
+            android:label="@string/title_activity_sys_msg" >
+        </activity>
     </application>
 
 </manifest>
