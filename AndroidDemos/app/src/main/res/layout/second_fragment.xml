@@ -50,8 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/comment_button"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="26dp"
                 android:src="@drawable/badge_dot"
                 android:visibility="invisible" />
     </RelativeLayout>
@@ -87,8 +86,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/liked_button"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="26dp"
                 android:src="@drawable/badge_dot"
                 android:visibility="invisible" />
     </RelativeLayout>
@@ -124,8 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignRight="@id/sysmsg_button"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="26dp"
                 android:src="@drawable/badge_dot"
                 android:visibility="invisible" />
     </RelativeLayout>

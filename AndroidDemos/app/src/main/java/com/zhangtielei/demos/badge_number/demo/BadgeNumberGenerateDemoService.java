@@ -71,7 +71,7 @@ public class BadgeNumberGenerateDemoService extends Service {
                         BadgeNumber badgeNumber = new BadgeNumber();
                         int type = typeCandidates[rand.nextInt(typeCandidates.length)];//随机一种badge number类型
                         badgeNumber.setType(type);
-                        int count = rand.nextInt(20) + 1;//count在[1, 20]内随机
+                        int count = rand.nextInt(10) + 1;//count在[1, 10]内随机
                         badgeNumber.setCount(count);
                         //父节点显示方式: 系统消息是红点, 第三个页面的是红点, 其它都按数字
                         int displayMode;
