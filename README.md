@@ -1,6 +1,6 @@
 # BadgeNumberTree
 
-BadgeNumberTree是一个Android版Demo App，出自我的博客文章[《用树型模型来管理App里的数字和红点提示》](http://zhangtielei.com/posts/blog-badge-number-tree.html)。
+BadgeNumberTree是一个Android版Demo App，出自我的博客文章[《用树型模型管理App数字和红点提示》](http://zhangtielei.com/posts/blog-badge-number-tree.html)。
 
 
 License
