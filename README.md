@@ -1,5 +1,6 @@
 # BadgeNumberTree
-用树形结构来组织红点和数字提示：一个Android客户端Demo
+
+BadgeNumberTree是一个Android版Demo App，出自我的博客文章[《用树型模型来管理App里的数字和红点提示》](http://zhangtielei.com/posts/blog-badge-number-tree.html)。
 
 
 License
