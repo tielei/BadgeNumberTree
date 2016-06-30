@@ -352,6 +352,10 @@ public class MainActivity extends AppCompatActivity {
     private class BadgeNumberReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
+            /**
+             * 这里模拟了客户端通过某种方式(比如长连接推送)获取到新的Badge Number的情况,
+             * 从而主动触发Badge Number的展示刷新逻辑.
+             */
             Log.v(TAG, "Rx badge number broadcast!");
             refreshAllTabsBadgeNumbers();
             int currentTabIndex = mainViewPager.getCurrentItem();
