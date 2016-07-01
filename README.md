@@ -2,6 +2,7 @@
 
 BadgeNumberTree是一个Android版Demo App，出自我的博客文章[《用树型模型管理App数字和红点提示》](http://zhangtielei.com/posts/blog-badge-number-tree.html)。
 
+可以下载现成的APK试用：[下载链接](http://pan.baidu.com/s/1hspYLve)。
 
 License
 =======
