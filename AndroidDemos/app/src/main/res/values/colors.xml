@@ -19,4 +19,7 @@
     <color name="common_color">#f9f5f0</color>
     <color name="tabs_splitter_color">#e9e5d9</color>
     <color name="tabs_name_text_color">#a39e9b</color>
+
+    <color name="button_bg_color">#B3B3B3</color>
+
 </resources>
